@@ -25,9 +25,9 @@ from employees e
 
 
 where (
-    t.to_date > curdate() AND
-    de.to_date > curdate() AND
-    dm.to_date > curdate() AND
-    s.to_date > curdate())
+    t.to_date >= curdate() AND
+    de.to_date >= curdate() AND
+    dm.to_date >=curdate() AND
+    s.to_date >= curdate())
 
 order by ID asc ;
