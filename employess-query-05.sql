@@ -18,6 +18,6 @@ from employees e
     right join departments d on d.dept_no = de.dept_no
 
 
-where (t.to_date > curdate() AND de.to_date > curdate())
+where (t.to_date >= curdate() AND de.to_date >= curdate())
 
 order by ID asc;

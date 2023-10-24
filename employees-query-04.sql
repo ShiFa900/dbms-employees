@@ -16,7 +16,7 @@ from employees e
     inner join titles t on e.emp_no = t.emp_no
     right join departments d on d.dept_no = de.dept_no
 
-where t.to_date = '9999/01/01'
+where t.to_date >= curdate()
 
 
 order by ID asc;
