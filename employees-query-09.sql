@@ -20,9 +20,15 @@ FROM employees e
                GROUP BY emp_no) last_title ON last_title.emp_no = e.emp_no
          JOIN titles t ON t.emp_no = e.emp_no AND t.to_date = last_title.titles_max_to_date
 
-         JOIN dept_emp de ON e.emp_no = de.emp_no AND de.to_date = last_title.titles_max_to_date
+    # dari dept_emp mendapatkan emp_no kemudian mendapatkan latest to_date untuk mendapatkan jabatan terakhir dari employee
+         JOIN (SELECT emp_no,
+                      max(dept_emp.to_date) AS last_dept
+               FROM dept_emp
+               GROUP BY emp_no) emp_last_dept ON emp_last_dept.emp_no = e.emp_no
+         JOIN dept_emp de ON e.emp_no = de.emp_no AND de.to_date = emp_last_dept.last_dept
 
          JOIN departments d ON de.dept_no = d.dept_no
+
     #     Bagaimana menentukan employee A  dengan manager B?
          JOIN (SELECT dept_no,
                       max(dept_manager.to_date) as manager_max_to_date
@@ -36,7 +42,7 @@ FROM employees e
                       max(salaries.to_date) AS sallary_max_to_date
                FROM salaries
                GROUP BY emp_no) last_sallary ON last_sallary.emp_no = e.emp_no
-         JOIN salaries s ON s.emp_no = e.emp_no AND s.to_date = last_sallary.sallary_max_to_date
+         JOIN salaries s ON s.emp_no = e.emp_no AND s.to_date = last_sallary.sallary_max_to_date;
 
 LIMIT 10;
 
